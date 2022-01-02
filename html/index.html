@@ -1,0 +1,34 @@
+<html>
+
+<body>
+    <h1> {{ .PageTitle}}</h1>
+
+    <table style="border: 1px;">
+        <tr>
+            <th>
+                Index
+            </th>
+            <th>
+                News
+            </th>
+        </tr>
+
+        {{if .AllNews}}
+
+        {{ range $index, $val := .AllNews}}
+        <tr>
+            <td>{{$index}}</td>
+            <td colspan="40"><a href="{{$val.Link }}">{{$val.Title}}</a></td>
+        </tr>
+
+        {{end}}
+
+        {{else}}
+        {{ printf "welcome"}}
+        {{end}}
+
+    </table>
+
+</body>
+
+</html>
