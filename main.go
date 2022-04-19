@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"sync"
 
 	"github.com/gocolly/colly"
@@ -20,7 +21,7 @@ type Page struct {
 	AllNews   *[]News
 }
 
-func webServer(title string, links *[]News, wg *sync.WaitGroup) {
+func webServer(title string, links *[]News, wg *sync.WaitGroup, port string) {
 
 	tmpl := template.Must(template.ParseFiles("html/index.html"))
 
@@ -34,7 +35,7 @@ func webServer(title string, links *[]News, wg *sync.WaitGroup) {
 	})
 
 	log.Printf("http server started at port 8080\n")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 
 	wg.Done()
 }
@@ -73,13 +74,21 @@ func scrapeEkantipur() []News {
 
 func main() {
 
+	// Necesary for deploying on heroku
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		//For local run
+		port = "8080"
+	}
+
 	allLinks := scrapeEkantipur()
 
 	var wg sync.WaitGroup
 
 	wg.Add(1)
 
-	go webServer("News Aggregator", &allLinks, &wg)
+	go webServer("News Aggregator", &allLinks, &wg, port)
 
 	// Keep the web server goroutine keep running
 	wg.Wait()
