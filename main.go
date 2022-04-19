@@ -79,7 +79,7 @@ func main() {
 
 	wg.Add(1)
 
-	go webServer("News Aggregatorr", &allLinks, &wg)
+	go webServer("News Aggregator", &allLinks, &wg)
 
 	// Keep the web server goroutine keep running
 	wg.Wait()
