@@ -75,7 +75,7 @@ func main() {
 			init = true
 		}
 		// This function runs repeatedly to scrape sites
-		ticker := time.NewTicker(1 * time.Minute)
+		ticker := time.NewTicker(6 * time.Hour)
 
 		// loop over the ticks
 		for range ticker.C {
