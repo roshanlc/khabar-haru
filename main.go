@@ -1,35 +1,42 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"sync"
+	"time"
 
-	"github.com/gocolly/colly"
+	"github.com/roshanlc/news-aggregator/websites"
 )
 
-type News struct {
-	Title string
-	Link  string
-}
-
+// Page related information
 type Page struct {
-	PageTitle string
-	AllNews   *[]News
+	Ekantipur, BBCNepal *[]websites.News
+	Prices              websites.PetroleumPrices
 }
 
-func webServer(title string, links *[]News, wg *sync.WaitGroup, port string) {
+type pageWithLock struct {
+	page Page
+	rw   *sync.RWMutex
+}
 
-	tmpl := template.Must(template.ParseFiles("html/index.html"))
+// Start a webserver
+func webServer(content *pageWithLock, wg *sync.WaitGroup, port string) {
+
+	tmpl := template.Must(template.ParseFiles("static/index.html"))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
+		// lock for reading purposes
+		content.rw.RLock()
+		defer content.rw.RUnlock()
+
 		tmpl.Execute(w, Page{
-			PageTitle: title,
-			AllNews:   links,
+			Ekantipur: content.page.Ekantipur,
+			BBCNepal:  content.page.BBCNepal,
+			Prices:    content.page.Prices,
 		})
 
 	})
@@ -40,38 +47,6 @@ func webServer(title string, links *[]News, wg *sync.WaitGroup, port string) {
 	wg.Done()
 }
 
-func scrapeEkantipur() []News {
-
-	temp := make([]News, 0)
-	collector := colly.NewCollector(
-	// Visit only allowed domains
-	//colly.AllowedDomains("nepalnews.com", "https://www.nepalnews.com"),
-	)
-
-	collector.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting ", r.URL)
-
-	})
-
-	collector.OnHTML("a[data-type=\"title\"]", func(h *colly.HTMLElement) {
-
-		title := h.Text
-		url := h.Attr("href")
-		temp = append(temp, News{
-			Title: title,
-			Link:  url,
-		})
-
-	})
-
-	collector.Visit("https://ekantipur.com")
-
-	collector.Wait()
-
-	fmt.Println("Data scraping completion!!")
-	return temp
-}
-
 func main() {
 
 	// Necesary for deploying on heroku
@@ -80,17 +55,60 @@ func main() {
 	if port == "" {
 		//For local run
 		port = "8080"
+
 	}
 
-	allLinks := scrapeEkantipur()
+	// Content struct
+	content := pageWithLock{page: Page{}, rw: &sync.RWMutex{}}
 
 	var wg sync.WaitGroup
 
-	wg.Add(1)
+	wg.Add(2)
 
-	go webServer("News Aggregator", &allLinks, &wg, port)
+	go func() {
+		var init bool = false
+
+		// Run for the intial time
+		if !init {
+			log.Println("Running scrapping methods")
+			scrapeWebsites(&content)
+			init = true
+		}
+		// This function runs repeatedly to scrape sites
+		ticker := time.NewTicker(1 * time.Minute)
+
+		// loop over the ticks
+		for range ticker.C {
+
+			log.Println("Running scrapping methods")
+			scrapeWebsites(&content)
+		}
+
+		//Add wg.Done() method
+		wg.Done()
+	}()
+
+	go func() {
+		//scrapeWebsites(&content)
+		webServer(&content, &wg, port)
+	}()
 
 	// Keep the web server goroutine keep running
 	wg.Wait()
+}
+
+// A routine function
+func scrapeWebsites(content *pageWithLock) {
+	// Lock for writing purpose
+	content.rw.Lock()
+	defer content.rw.Unlock()
+
+	ek := websites.FetchEkantipur()
+	bbc := websites.FetchBBCNepali()
+	prices := websites.FetchPrices()
+
+	content.page.BBCNepal = bbc
+	content.page.Ekantipur = ek
+	content.page.Prices = prices
 
 }
