@@ -10,6 +10,10 @@
       <path d='M2 3h10v2H2V3zm0 3h4v3H2V6zm0 4h4v1H2v-1zm0 2h4v1H2v-1zm5-6h2v1H7V6zm3 0h2v1h-2V6zM7 8h2v1H7V8zm3 0h2v1h-2V8zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1z'/>
     </svg>" />
   <style>
+/* Devanagiri complaint font */
+
+@import url('https://fonts.googleapis.com/css2?family=Mukta&display=swap');
+
     a {
       text-decoration: none;
     }
@@ -18,7 +22,7 @@
       background-color: rgb(246, 242, 242);
       text-align: center;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       padding: 3px;
       margin-top: 5px;
       overflow: hidden;
@@ -61,6 +65,8 @@ justify-content: center;
     }
 
     .news th {
+       font-family: Arial, Helvetica, sans-serif; 
+
       padding-top: 12px;
       padding-bottom: 12px;
       text-align: left;
@@ -69,13 +75,21 @@ justify-content: center;
     }
 
     .news {
-      font-family: Arial, Helvetica, sans-serif;
+
+
       font-size: 1.13rem;
       border-collapse: collapse;
       width: 100%;
+      
     }
+    .news td{
+       font-family: 'Mukta', sans-serif; /* Devanagiri */
+      border: 1px solid #ddd;
+      padding: 8px;
+      width: 70rem;
+      font-size: 1.4rem;
 
-    .news td,
+    }
     .news th {
       border: 1px solid #ddd;
       padding: 8px;
@@ -148,7 +162,9 @@ justify-content: center;
   </div>
   <h2>
     <p style="text-align: center">Today's News</p>
+    
   </h2>
+
 
   <div id="ekantipur" class="main news">
     <table>
@@ -222,5 +238,7 @@ justify-content: center;
     ekantipurTable.style.display="";
     }
    }
+
+
 </script>
 </html>
