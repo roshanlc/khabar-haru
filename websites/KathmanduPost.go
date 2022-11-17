@@ -6,10 +6,10 @@ import (
 	"github.com/gocolly/colly"
 )
 
-func FetchEkantipur() *[]News {
+func FetchKathmanduPost() *[]News {
 
-	// The url of The Himalayan Times news
-	const url = "https://ekantipur.com"
+	// The url of The Kathmandu Post
+	const url = "https://kathmandupost.com/"
 
 	collector := colly.NewCollector()
 
@@ -29,16 +29,21 @@ func FetchEkantipur() *[]News {
 
 	// On finding a tag, run this function
 
-	collector.OnHTML("a[data-type=\"title\"]", func(h *colly.HTMLElement) {
+	collector.OnHTML("div.block--morenews", func(h *colly.HTMLElement) {
 
-		title := h.Text
-		url := h.Attr("href")
-		temp = append(temp, News{
-			Title: title,
-			Link:  url,
+		h.ForEach("a", func(i int, h *colly.HTMLElement) {
+			title := h.ChildText("h3")
+			url := "https://kathmandupost.com" + h.Attr("href")
+			if len(title) != 0 {
+				temp = append(temp, News{
+					Title: title,
+					Link:  url,
+				})
+			}
 		})
 
 	})
+
 	collector.Visit(url)
 
 	collector.Wait()

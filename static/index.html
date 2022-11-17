@@ -22,7 +22,7 @@
       background-color: rgb(246, 242, 242);
       text-align: center;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-size: 1.35rem;
+      font-size: 1.2rem;
       padding: 3px;
       margin-top: 5px;
       overflow: hidden;
@@ -77,7 +77,7 @@ justify-content: center;
     .news {
 
 
-      font-size: 1.13rem;
+      font-size: 1rem;
       border-collapse: collapse;
       width: 100%;
       
@@ -87,7 +87,7 @@ justify-content: center;
       border: 1px solid #ddd;
       padding: 8px;
       width: 70rem;
-      font-size: 1.4rem;
+      font-size: 1.2rem;
 
     }
     .news th {
@@ -187,6 +187,7 @@ justify-content: center;
       </tbody>
     </table>
   </div>
+
   <div id="bbc-nepal" class="main news">
     <table>
       <thead>
@@ -209,10 +210,37 @@ justify-content: center;
     </table>
   </div>
 
+  <div id="ktm-post" class="main news">
+    <table>
+      <thead>
+        <tr>
+          <th>
+            <span class="hide" id="show-hide-ktm">Hide</span>
+            The Kathmandu Post
+          </th>
+        </tr>
+      </thead>
+      <tbody id="ktm-post-news">
+        {{if .KtmPost }} {{range $index, $val := .KtmPost}}
+        
+        <tr>
+          <td ><a href="{{$val.Link}}">{{$val.Title}}</a></td>
+        </tr>
+        {{end}} {{end}}
+
+      </tbody>
+    </table>
+  </div>
+
 </body>
 <script>
+  // buttons
   const ekantipur = document.getElementById("show-hide-ek");
   const bbc = document.getElementById("show-hide-bbc");
+  const ktmPost = document.getElementById("show-hide-ktm")
+
+  // tables
+  const ktmPostTable =  document.getElementById("ktm-post-news");
   const bbcTable = document.getElementById("bbc-nepal-news");
   const ekantipurTable = document.getElementById("ekantipur-news");
 
@@ -233,11 +261,25 @@ justify-content: center;
     if (ekantipur.textContent === "Hide"){
     ekantipur.textContent = "Show";
     ekantipurTable.style.display="none";
-    }else{
+    }
+    else{
       ekantipur.textContent = "Hide";
     ekantipurTable.style.display="";
     }
    }
+
+   // for ktm post
+   ktmPost.onclick = ()=>{
+    if (ktmPost.textContent === "Hide"){
+    ktmPost.textContent = "Show";
+    ktmPostTable.style.display="none";
+    }
+    else{
+      ktmPost.textContent = "Hide";
+    ktmPostTable.style.display="";
+    }
+
+   };
 
 
 </script>

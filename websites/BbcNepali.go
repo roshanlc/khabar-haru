@@ -45,6 +45,8 @@ func FetchBBCNepali() *[]News {
 
 	log.Println(url, ": Data scraping completion!!")
 
+	// Only the first ten items
+	temp = temp[:10]
 	// Returns news from BBC
 	return &temp
 }

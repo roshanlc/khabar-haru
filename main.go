@@ -13,8 +13,8 @@ import (
 
 // Page related information
 type Page struct {
-	Ekantipur, BBCNepal *[]websites.News
-	Prices              websites.PetroleumPrices
+	Ekantipur, BBCNepal, KtmPost *[]websites.News
+	Prices                       websites.PetroleumPrices
 }
 
 type pageWithLock struct {
@@ -37,6 +37,7 @@ func webServer(content *pageWithLock, wg *sync.WaitGroup, port string) {
 			Ekantipur: content.page.Ekantipur,
 			BBCNepal:  content.page.BBCNepal,
 			Prices:    content.page.Prices,
+			KtmPost:   content.page.KtmPost,
 		})
 
 	})
@@ -75,7 +76,7 @@ func main() {
 			init = true
 		}
 		// This function runs repeatedly to scrape sites
-		ticker := time.NewTicker(6 * time.Hour)
+		ticker := time.NewTicker(1 * time.Hour)
 
 		// loop over the ticks
 		for range ticker.C {
@@ -105,10 +106,12 @@ func scrapeWebsites(content *pageWithLock) {
 
 	ek := websites.FetchEkantipur()
 	bbc := websites.FetchBBCNepali()
+	ktmPost := websites.FetchKathmanduPost()
 	prices := websites.FetchPrices()
 
 	content.page.BBCNepal = bbc
 	content.page.Ekantipur = ek
+	content.page.KtmPost = ktmPost
 	content.page.Prices = prices
 
 }
