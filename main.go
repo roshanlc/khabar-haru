@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"sync"
 	"time"
 
@@ -41,8 +42,9 @@ func webServer(content *pageWithLock, wg *sync.WaitGroup, port string) {
 		})
 
 	})
-
-	log.Printf("http server started at port 8080\n")
+	log.Println(strings.Repeat("=", 50))
+	log.Printf("http server started at port %s\n", port)
+	log.Println(strings.Repeat("=", 50))
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 
 	wg.Done()
@@ -52,7 +54,6 @@ func main() {
 
 	// Necesary for deploying on heroku
 	port := os.Getenv("PORT")
-
 	if port == "" {
 		//For local run
 		port = "8080"
