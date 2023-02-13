@@ -48,8 +48,13 @@ func FetchKathmanduPost() *[]News {
 
 	collector.Wait()
 
-	log.Println(url, ": Data scraping completion!!")
+	log.Println(url, ": Data scraping completion with ", len(temp), "items !!!")
 
+	if len(temp) == 0 {
+		return nil
+	} else if len(temp) > 0 && len(temp) < 10 {
+		return &temp
+	}
 	// Only the first ten items
 	temp = temp[:10]
 

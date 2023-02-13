@@ -31,7 +31,7 @@ func FetchBBCNepali() *[]News {
 
 	// On finding a tag, run this function
 
-	collector.OnHTML("a.bbc-1fxtbkn", func(h *colly.HTMLElement) {
+	collector.OnHTML("a.bbc-1mirykb", func(h *colly.HTMLElement) {
 
 		link := prefix + h.Attr("href")
 		title := h.ChildText("span")
@@ -43,8 +43,13 @@ func FetchBBCNepali() *[]News {
 
 	collector.Wait()
 
-	log.Println(url, ": Data scraping completion!!")
+	log.Println(url, ": Data scraping completion with ", len(temp), "items !!!")
 
+	if len(temp) == 0 {
+		return nil
+	} else if len(temp) > 0 && len(temp) < 10 {
+		return &temp
+	}
 	// Only the first ten items
 	temp = temp[:10]
 	// Returns news from BBC
