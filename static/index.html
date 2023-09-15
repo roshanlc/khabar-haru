@@ -10,9 +10,9 @@
       <path d='M2 3h10v2H2V3zm0 3h4v3H2V6zm0 4h4v1H2v-1zm0 2h4v1H2v-1zm5-6h2v1H7V6zm3 0h2v1h-2V6zM7 8h2v1H7V8zm3 0h2v1h-2V8zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1z'/>
     </svg>" />
   <style>
-/* Devanagiri complaint font */
+    /* Devanagiri complaint font */
 
-@import url('https://fonts.googleapis.com/css2?family=Mukta&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Mukta&display=swap');
 
     a {
       text-decoration: none;
@@ -25,9 +25,17 @@
       font-size: 1.2rem;
       padding: 3px;
       margin-top: 5px;
-      overflow: hidden;
       padding-bottom: 5px;
       height: auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+      /* For smaller devices */
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+        gap: 5px;
+      }
     }
 
     .header>span {
@@ -43,9 +51,9 @@
       color: rgb(250, 12, 12);
     }
 
-    .main{
-display: flex;
-justify-content: center;
+    .main {
+      display: flex;
+      justify-content: center;
     }
 
 
@@ -65,7 +73,7 @@ justify-content: center;
     }
 
     .news th {
-       font-family: Arial, Helvetica, sans-serif; 
+      font-family: Arial, Helvetica, sans-serif;
 
       padding-top: 12px;
       padding-bottom: 12px;
@@ -80,16 +88,19 @@ justify-content: center;
       font-size: 1rem;
       border-collapse: collapse;
       width: 100%;
-      
+
     }
-    .news td{
-       font-family: 'Mukta', sans-serif; /* Devanagiri */
+
+    .news td {
+      font-family: 'Mukta', sans-serif;
+      /* Devanagiri */
       border: 1px solid #ddd;
       padding: 8px;
       width: 70rem;
       font-size: 1.2rem;
 
     }
+
     .news th {
       border: 1px solid #ddd;
       padding: 8px;
@@ -162,7 +173,7 @@ justify-content: center;
   </div>
   <h2>
     <p style="text-align: center">Today's News</p>
-    
+
   </h2>
 
 
@@ -178,9 +189,9 @@ justify-content: center;
       </thead>
       <tbody id="ekantipur-news">
         {{if .Ekantipur }} {{range $index, $val := .Ekantipur}}
-        
+
         <tr>
-          <td ><a href="{{$val.Link}}">{{$val.Title}}</a></td>
+          <td><a href="{{$val.Link}}">{{$val.Title}}</a></td>
         </tr>
 
         {{end}} {{end}}
@@ -200,9 +211,9 @@ justify-content: center;
       </thead>
       <tbody id="bbc-nepal-news">
         {{if .BBCNepal }} {{range $index, $val := .BBCNepal}}
-        
+
         <tr>
-          <td ><a href="{{$val.Link}}">{{$val.Title}}</a></td>
+          <td><a href="{{$val.Link}}">{{$val.Title}}</a></td>
         </tr>
         {{end}} {{end}}
 
@@ -222,9 +233,9 @@ justify-content: center;
       </thead>
       <tbody id="ktm-post-news">
         {{if .KtmPost }} {{range $index, $val := .KtmPost}}
-        
+
         <tr>
-          <td ><a href="{{$val.Link}}">{{$val.Title}}</a></td>
+          <td><a href="{{$val.Link}}">{{$val.Title}}</a></td>
         </tr>
         {{end}} {{end}}
 
@@ -240,47 +251,48 @@ justify-content: center;
   const ktmPost = document.getElementById("show-hide-ktm")
 
   // tables
-  const ktmPostTable =  document.getElementById("ktm-post-news");
+  const ktmPostTable = document.getElementById("ktm-post-news");
   const bbcTable = document.getElementById("bbc-nepal-news");
   const ekantipurTable = document.getElementById("ekantipur-news");
 
   bbc.onclick = () => {
 
-    if (bbc.textContent === "Hide"){
-    bbc.textContent = "Show";
-    bbcTable.style.display="none";
-    }else{
+    if (bbc.textContent === "Hide") {
+      bbc.textContent = "Show";
+      bbcTable.style.display = "none";
+    } else {
       bbc.textContent = "Hide";
-    bbcTable.style.display="";
+      bbcTable.style.display = "";
     }
   }
 
-// On clicking on ekantipur
-    ekantipur.onclick = () => {
-    
-    if (ekantipur.textContent === "Hide"){
-    ekantipur.textContent = "Show";
-    ekantipurTable.style.display="none";
+  // On clicking on ekantipur
+  ekantipur.onclick = () => {
+
+    if (ekantipur.textContent === "Hide") {
+      ekantipur.textContent = "Show";
+      ekantipurTable.style.display = "none";
     }
-    else{
+    else {
       ekantipur.textContent = "Hide";
-    ekantipurTable.style.display="";
+      ekantipurTable.style.display = "";
     }
-   }
+  }
 
-   // for ktm post
-   ktmPost.onclick = ()=>{
-    if (ktmPost.textContent === "Hide"){
-    ktmPost.textContent = "Show";
-    ktmPostTable.style.display="none";
+  // for ktm post
+  ktmPost.onclick = () => {
+    if (ktmPost.textContent === "Hide") {
+      ktmPost.textContent = "Show";
+      ktmPostTable.style.display = "none";
     }
-    else{
+    else {
       ktmPost.textContent = "Hide";
-    ktmPostTable.style.display="";
+      ktmPostTable.style.display = "";
     }
 
-   };
+  };
 
 
 </script>
+
 </html>
