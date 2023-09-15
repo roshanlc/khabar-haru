@@ -1,5 +1,7 @@
 # khabar-haru
 
+> Khabar means `News` in Nepali.
+
 - A Nepali news agggregator that scrapes from Nepali news portal(s) in an hourly interval and serves them via a HTTP webserver. Written in `Go`.
 - Supports Ekantipur, BBC Nepali news and The Kathmandu Post
 - Shows Daily Petroleum Prices
