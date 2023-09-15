@@ -3,3 +3,6 @@
 .vscode/
 main
 todo.md
+
+*.exe
+news-aggregator
