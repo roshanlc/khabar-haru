@@ -1,4 +1,4 @@
-module github.com/roshanlc/news-aggregator
+module github.com/roshanlc/khabar-haru
 
 go 1.19
 

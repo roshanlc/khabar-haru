@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/roshanlc/news-aggregator/websites"
+	"github.com/roshanlc/khabar-haru/websites"
 )
 
 // Page related information

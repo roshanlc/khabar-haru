@@ -5,4 +5,5 @@ main
 todo.md
 
 *.exe
-news-aggregator
+khabar-haru
+build/
