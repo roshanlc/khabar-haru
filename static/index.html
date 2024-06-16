@@ -143,6 +143,7 @@
 
 <body>
   <div class="header">
+     {{if .Prices.Petrol}}
     <span id="petrol">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fuel-pump"
         viewBox="0 0 16 16">
@@ -154,6 +155,8 @@
       <span class="price" id="petrol-price">Rs.{{ .Prices.Petrol}}</span>
     </span>
     </span>
+    {{end}}
+    {{if .Prices.Diesel}}
     <span id="diesel">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fuel-pump"
         viewBox="0 0 16 16">
@@ -163,6 +166,8 @@
       </svg>
       Diesel:
       <span class="price" id="disel-price">Rs.{{ .Prices.Diesel}}</span></span>
+      {{end}}
+     {{if .Prices.LPG }}
     <span id="disel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
         class="bi bi-fire" viewBox="0 0 16 16">
         <path
@@ -170,6 +175,7 @@
       </svg>
       LPG Gas:
       <span class="price" id="lpg-price">Rs.{{ .Prices.LPG}}</span></span>
+      {{end}}
   </div>
   <h2>
     <p style="text-align: center">Today's News</p>

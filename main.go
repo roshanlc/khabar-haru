@@ -26,7 +26,12 @@ type pageWithLock struct {
 // Start a webserver
 func webServer(content *pageWithLock, wg *sync.WaitGroup, port string) {
 
-	tmpl := template.Must(template.ParseFiles("static/index.html"))
+	templ, err := template.ParseFiles("static/index.html")
+	if err != nil {
+		log.Fatal("unable to parse template::", err)
+	}
+
+	// tmpl := template.Must(template.ParseFiles("static/index.html"))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
@@ -34,7 +39,7 @@ func webServer(content *pageWithLock, wg *sync.WaitGroup, port string) {
 		content.rw.RLock()
 		defer content.rw.RUnlock()
 
-		tmpl.Execute(w, Page{
+		templ.Execute(w, Page{
 			Ekantipur: content.page.Ekantipur,
 			BBCNepal:  content.page.BBCNepal,
 			Prices:    content.page.Prices,
