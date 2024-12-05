@@ -1,6 +1,6 @@
 module github.com/roshanlc/khabar-haru
 
-go 1.19
+go 1.23
 
 require github.com/gocolly/colly v1.2.0
 

@@ -33,8 +33,8 @@ func webServer(content *pageWithLock, wg *sync.WaitGroup, port string) {
 
 	// tmpl := template.Must(template.ParseFiles("static/index.html"))
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-
+	http.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("Method:", r.Method, "URL:", r.URL, "IP Address:", r.RemoteAddr, "User-Agent:", r.UserAgent())
 		// lock for reading purposes
 		content.rw.RLock()
 		defer content.rw.RUnlock()
