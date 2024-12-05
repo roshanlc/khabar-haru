@@ -34,7 +34,13 @@ func webServer(content *pageWithLock, wg *sync.WaitGroup, port string) {
 	// tmpl := template.Must(template.ParseFiles("static/index.html"))
 
 	http.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("Method:", r.Method, "URL:", r.URL, "IP Address:", r.RemoteAddr, "User-Agent:", r.UserAgent())
+		// Get the original client IP from the X-Forwarded-For header
+		originalIP := r.Header.Get("X-Forwarded-For")
+		if originalIP == "" {
+			// If the header is not present, fall back to RemoteAddr
+			originalIP = r.RemoteAddr
+		}
+		log.Println("Method:", r.Method, "URL:", r.URL, "IP Address:", originalIP, "User-Agent:", r.UserAgent())
 		// lock for reading purposes
 		content.rw.RLock()
 		defer content.rw.RUnlock()
