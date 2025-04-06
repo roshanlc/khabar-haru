@@ -31,9 +31,9 @@ func FetchBBCNepali() *[]News {
 
 	// On finding a tag, run this function
 
-	collector.OnHTML("a.bbc-uk8dsi.e1d658bg0", func(h *colly.HTMLElement) {
+	collector.OnHTML("a.bbc-1i4ie53.e1d658bg0", func(h *colly.HTMLElement) {
 
-		link :=  h.Attr("href")
+		link := h.Attr("href")
 		title := h.Text
 
 		temp = append(temp, News{Title: title, Link: link})
